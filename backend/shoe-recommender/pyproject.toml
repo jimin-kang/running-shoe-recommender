@@ -1,0 +1,23 @@
+[project]
+name = "shoe-recommender"
+version = "0.1.0"
+description = "Recommendation system for running shoes."
+readme = "README.md"
+authors = [
+    { name = "jimin-kang", email = "jimin.kang821@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi[standard]>=0.142.2",
+    "numpy>=2.5.3",
+    "pydantic-settings>=2.15.0",
+    "pytest>=9.1.1",
+    "sqlalchemy>=2.1.2",
+]
+
+[project.scripts]
+shoe-recommender = "shoe_recommender:main"
+
+[build-system]
+requires = ["uv_build>=0.12.1,<0.13.0"]
+build-backend = "uv_build"
