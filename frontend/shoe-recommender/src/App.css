@@ -1,3 +1,41 @@
+@import "tailwindcss";
+
+input[type="submit"],
+button[type="submit"] {
+  /* 1. Reset default browser borders and backgrounds */
+  border: none;
+  background: none;
+  
+  /* 2. Set custom colors */
+  background-color: #007BFF; /* Modern blue */
+  color: #ffffff;            /* White text */
+  
+  /* 3. Typography & Spacing */
+  font-family: inherit;      /* Forces button to inherit form font */
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 24px;        /* Vertical and horizontal inner spacing */
+  
+  /* 4. Visual enhancements */
+  border-radius: 6px;        /* Smooth rounded corners */
+  cursor: pointer;           /* Shows the pointer finger icon on hover */
+  
+  /* 5. Smooth hover animation */
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+/* Hover state (when the mouse is over the button) */
+input[type="submit"]:hover,
+button[type="submit"]:hover {
+  background-color: #0056b3; /* Darker blue */
+}
+
+/* Active state (when the button is being clicked) */
+input[type="submit"]:active,
+button[type="submit"]:active {
+  transform: scale(0.98);    /* Slight shrink effect */
+}
+
 .counter {
   font-size: 16px;
   padding: 5px 10px;

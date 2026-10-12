@@ -1,20 +1,17 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
 import './App.css'
-import InputFormPage from './form.tsx'
-import NumberSliderForm from './SliderForm.tsx'
+import PreferenceSliderForm from './PreferenceSliderForm.tsx'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import RecommendationsPage from './RecommendationsPage.tsx';
 
-function App() {
-  const [count, setCount] = useState(0)
 
+export default function App() {
   return (
-    <>
+    <BrowserRouter>
       <h1>Welcome to your own shoe recommender :) </h1>
-      <NumberSliderForm />
-    </>
-  )
+      <Routes>
+        <Route path="/" element={<PreferenceSliderForm />} />
+        <Route path="/recommendations" element={<RecommendationsPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
-
-export default App

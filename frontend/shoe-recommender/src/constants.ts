@@ -1,0 +1,1 @@
+export const RECOMMENDATION_API = "http://localhost:8000/api/recommendations"

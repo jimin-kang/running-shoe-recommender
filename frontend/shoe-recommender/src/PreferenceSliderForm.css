@@ -1,0 +1,17 @@
+.preference-form-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.preference-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 60%;
+}
+
+.preference-form-table {
+    border-collapse: separate; /* Required for border-spacing to function  */
+    border-spacing: 1rem;
+}
