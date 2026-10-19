@@ -1,7 +1,5 @@
-"""
-Endpoints for fetching shoes.
-May need this to populate shoe options and/or allow user to select shoes.
-"""
+from typing import List
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -17,15 +15,15 @@ router = APIRouter(prefix="/api/shoes", tags=["shoes"])
 @router.get("", response_model=list[ShoeResponse])
 def get_shoes(
     db: Session = Depends(get_db),
-):
+) -> List[ShoeResponse]:
     """
     Get all shoes.
-
+    
     Args:
-        db (Session, optional): _description_. Defaults to Depends(get_db).
-
+        db (Session, optional): database session scoped to the request. Defaults to Depends(get_db).
+    
     Returns:
-        _type_: _description_
+        List[ShoeResponse]: list of all shoes
     """
     shoes = db.scalars(
         select(Shoe)
@@ -50,7 +48,7 @@ def get_shoes(
 def get_shoe(
     shoe_id: int,
     db: Session = Depends(get_db),
-):
+) -> ShoeResponse:
     """
     Get a particular shoe.
 
@@ -62,7 +60,7 @@ def get_shoe(
         HTTPException: _description_
 
     Returns:
-        _type_: _description_
+        ShoeResponse: shoe object
     """
     shoe = db.get(Shoe, shoe_id)
 

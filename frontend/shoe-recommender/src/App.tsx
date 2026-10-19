@@ -1,16 +1,20 @@
 import './App.css'
-import PreferenceSliderForm from './PreferenceSliderForm.tsx'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import RecommendationsPage from './RecommendationsPage.tsx';
+import ShoePreferenceForm from '@/pages/ShoePreferenceForm.tsx'
+import RecommendationsPage from '@/pages/RecommendationsPage.tsx';
+import NotFound from '@/pages/NotFound.tsx';
 
 
 export default function App() {
   return (
     <BrowserRouter>
       <h1>Welcome to your own shoe recommender :) </h1>
+
+      {/* Load the preference form or the recommendation page according to the URL */}
       <Routes>
-        <Route path="/" element={<PreferenceSliderForm />} />
+        <Route path="/" element={<ShoePreferenceForm />} />
         <Route path="/recommendations" element={<RecommendationsPage />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

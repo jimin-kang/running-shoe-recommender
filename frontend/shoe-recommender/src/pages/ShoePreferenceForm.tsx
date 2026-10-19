@@ -1,18 +1,14 @@
-import './PreferenceSliderForm.css'
+import '@/pages/ShoePreferenceForm.css'
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
-import { RECOMMENDATION_API } from './constants';
+import { RECOMMENDATION_API } from '@/constants';
 
 /**
- * Component to accept shoe preferences.
- * 
- * Input form for shoe preferences should include:
- * - Physical specs: weight, stack height, etc.
- * - Constraints: plate/no-plate
- * - Qualitative stuff: use-case, durability, etc.   
+ * Component to accept user shoe preferences.
+ * Input form will request for desired values for the physical shoe specs and their corresponding importances.
  * @returns 
  */
-export default function PreferenceSliderForm() {
+export default function ShoePreferenceForm() {
 
   // PHYSICAL SPECS
   // Weight
@@ -32,7 +28,7 @@ export default function PreferenceSliderForm() {
 
   /**
    * Event handler called when user submits their preferences.
-   * Calls the recommendation API and redirects the user to the recommendation page.
+   * Calls the recommendation endpoint and redirects the user to the recommendation page with the response.
    * @param e 
    */
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {

@@ -1,9 +1,4 @@
-"""
-Models related to shoe recommendations.
-"""
-
 from pydantic import BaseModel
-
 from shoe_recommender.schemas.shoe import ShoeResponse
 
 

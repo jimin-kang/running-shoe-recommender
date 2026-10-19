@@ -1,6 +1,6 @@
 
-import RecommendationCard from "./components/RecommendationCard";
-import type {ShoeRecommendation} from "./types/recommendation"
+import RecommendationCard from "@/components/RecommendationCard";
+import type {ShoeRecommendation} from "@/types"
 
 type RecommendationsListProps = {
   recommendations: ShoeRecommendation[];
@@ -8,7 +8,7 @@ type RecommendationsListProps = {
 
 /**
  * Component that displays all the shoe recommendations
- * @param param0 
+ * @param recommendations: List of shoe recommendations
  * @returns 
  */
 export default function RecommendationsList({

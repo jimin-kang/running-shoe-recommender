@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import RecommendationsList from './RecommendationsList';
+import RecommendationsList from '@/components/RecommendationsList';
 
 /**
  * Component that displays the shoe recommendations

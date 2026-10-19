@@ -1,5 +1,11 @@
-import type {RecommendationCardProps} from "../types/recommendation";
+import type {RecommendationCardProps} from "@/types";
 
+/**
+ * Helper to display the value with the specified unit.
+ * @param value 
+ * @param unit 
+ * @returns 
+ */
 function formatSpec(
   value: number | null,
   unit: string,
@@ -9,7 +15,7 @@ function formatSpec(
 
 /**
  * Result card to display a single shoe recommendation.
- * @param recommendation: ShoeRecommendation for the recommended shoe
+ * @param recommendation: the shoe recommendation
  * @returns 
  */
 export default function RecommendationCard({

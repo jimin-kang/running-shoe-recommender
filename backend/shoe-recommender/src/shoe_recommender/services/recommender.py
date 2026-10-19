@@ -1,8 +1,8 @@
 from dataclasses import asdict
 import json
 from typing import Optional
+from fastapi import Request
 from shoe_recommender.database.models.shoe_stats import ShoeFeatureStats
-from shoe_recommender.recommendation.vectorizer import weighted_cosine_similarity
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -18,15 +18,17 @@ from shoe_recommender.schemas.shoe import ShoeResponse
 
 class RecommendationService:
     """
-    Service that provides shoe recommendations.
-    
-    Calculating recommendation scores should be abstracted away here.
-    This should just orchestrate shoe filtering & ranking.
+    Service that generates shoe recommendations.
     """
 
     def __init__(self, shoe_stats: ShoeFeatureStats):
+        """
+        Our recomender needs shoe catalog statistics to compute shoe scores.
+
+        Args:
+            shoe_stats (ShoeFeatureStats): shoe catalog statistics
+        """
         self.shoe_stats = shoe_stats # shoe stats required to normalize features
-        print(f"LOADED SHOE STATS:\n{json.dumps(asdict(self.shoe_stats), indent=2)}")
 
     def recommend(
         self,
@@ -91,17 +93,20 @@ class RecommendationService:
         """
         Generate a score for the shoe based on the User's preference.
         
-        Higher score indicates a better match for the user.
+        The shoe's score will be between 0 & 1, where higher scores indicate a better match for the user.
 
         Args:
-            shoe (Shoe): _description_
-            preferences (PreferenceRequest): _description_
+            shoe (Shoe): shoe to score
+            preferences (PreferenceRequest): user's shoe preferences
 
         Returns:
-            Recommendation: _description_
+            Recommendation: the recommendation object containing the shoe score
         """
-        # Compute weighted distance between shoe vector & user preferences
-        # Features are on z-scores to normalize the scale 
+        # The score of a shoe will be inversely proportional to the distance between the user's shoe preferences & the shoe.
+        # I.e. shoes closer to the user's preference vector will be scored higher (indicating a better match).
+        
+        # Compute weighted Manhattan distance between the shoe & user preferences.
+        # Features are on z-scores to normalize the scale (i.e. 30g weight delta should not necessarily overpower a 3mm stack delta).
         shoe_weight_z = (shoe.weight_g - self.shoe_stats.weight.mean) / self.shoe_stats.weight.std
         pref_weight_z = (preferences.weight - self.shoe_stats.weight.mean) / self.shoe_stats.weight.std
         
@@ -121,8 +126,10 @@ class RecommendationService:
             + preferences.heel_stack_importance
             * abs(heel_stack_z - pref_heel_stack_z)
         )
+        
+        # Similarity score will be computed using reciprocal distance similarity (https://www.puttypeg.net/book/chapters/chapter4.html).
+        # Scores will be bounded between 0 & 1, where a score of 1 indicates a perfect match for the user.
         similarity_score = 1/(1 + distance)
-        print(f"User pref vs. shoe '{shoe.model}' -> Weighted Similarity = {similarity_score:.4f}")
 
         return Recommendation(
             shoe=ShoeResponse(
@@ -137,5 +144,18 @@ class RecommendationService:
                 terrain=shoe.terrain,
             ),
             score=similarity_score,
-            reasons=[],
+            reasons=[], # TODO: extract these
         )
+        
+        
+def get_recommender(request: Request) -> RecommendationService:
+    """
+    Dependency injector to yield the Recommendation Service.
+
+    Args:
+        request (Request): incoming request
+
+    Returns:
+        RecommendationService: application RecommendationService instance
+    """
+    return request.app.state.recommender

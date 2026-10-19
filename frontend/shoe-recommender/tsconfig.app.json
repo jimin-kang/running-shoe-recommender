@@ -7,6 +7,12 @@
     "types": ["vite/client"],
     "allowArbitraryExtensions": true,
     "skipLibCheck": true,
+    
+    /* Enable named imports from /src/ (i.e. @/components/RecommendationCard.tsx) */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
 
     /* Bundler mode */
     "moduleResolution": "bundler",
